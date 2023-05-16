@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h1 class="display-6" th:text="|${blog.title} Comments|"></h1>
+
+    <br>
+    <p>
+        <a class="btn btn-primary" th:href="@{/comment/add/{id}(id=${blog.id})}">Add Comment</a>
+    </p>
+    <div th:each="comment : ${comments}">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${comment.username}"></h5>
+                <p class="card-text" th:text="${comment.commentText}"></p>
+                <p class="card-text" th:text="'Like = ' + ${comment.liked}"></p>
+                <form th:action="@{/comment/like/{blogId}/{id}(id=${comment.id}, blogId=${comment.blogId})}" th:method="post">
+                    <input type="submit" class="btn btn-primary" value="Like" />
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>
+
+</div>
+
+</body>
+</html>

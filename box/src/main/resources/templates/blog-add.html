@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="container">
+    <h1 class="display-6">Add Blog</h1>
+
+    <form th:action="@{/blog/add}" th:object="${blogRequest}" method="POST">
+        <div class="mb-3">
+            <label for="titleInput" class="form-label">Title</label>
+            <input id="titleInput" type="text" class="form-control" th:field="*{title}">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="contentInput" class="form-label">Content</label>
+            <input id="contentInput" type="text" class="form-control" th:field="*{content}">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="container w-50 p-3">
+  <h1 class="display-5">Sign Up</h1>
+
+  <form action="#" th:action="@{/signup}" th:object="${signupDto}" method="POST">
+
+    <div id="success-msg" th:if="${signupSuccess}"
+         class="alert alert-success">
+      You successfully signed up! Please continue to the <a th:href="@{/login}">login</a> page.
+    </div>
+    <div id="error-msg" th:if="${signupError}" class="alert alert-danger">
+      <span th:text="${signupError}"></span>
+    </div>
+
+    <div class="mb-3">
+      <label for="inputFirstName">First Name</label>
+      <input id="inputFirstName" type="text" th:field="*{firstName}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputLastName">Last Name</label>
+      <input id="inputLastName" type="text" th:field="*{lastName}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputEmail">Email</label>
+      <input id="inputEmail" type="text" th:field="*{email}"
+             class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}"
+           th:errors="*{email}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputUsername">Username</label>
+      <input id="inputUsername" type="text" th:field="*{username}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="inputPassword">Password</label>
+      <div class="input-group">
+        <input id="inputPassword" type="password" th:field="*{password}" class="form-control">
+        <span class="input-group-text" id="toggleButton-1"><i class="bi bi-eye-slash" aria-hidden="true"></i></span>
+      </div>
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="confirmPassword">Confirm Password</label>
+      <div class="input-group">
+        <input id="confirmPassword" th:field="*{confirmPassword}" type="password" class="form-control">
+        <span class="input-group-text" id="toggleButton-2"><i class="bi bi-eye-slash" aria-hidden="true"></i></span>
+      </div>
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputRole">Role</label>
+      <select id="inputRole" name="role" class="form-select">
+        <option value="ROLE_USER" selected>User</option>
+        <option value="ROLE_ADMIN">Admin</option>
+      </select>
+    </div>
+    <div class="g-recaptcha"
+         data-sitekey="6Ldnl-8fAAAAAJVmg8zw8hbHg_j0Y4a0r-leBpf6">
+    </div>
+    <br>
+    <button id="submit-button" type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>
+
+<script>
+  const inputPassword = document.querySelector('#inputPassword');
+  const togglePassword = document.querySelector('#toggleButton-1');
+  const iconPassword = document.querySelector('#toggleButton-1 i');
+
+  const inputConfirm = document.querySelector('#confirmPassword');
+  const toggleConfirm = document.querySelector('#toggleButton-2');
+  const iconConfirm = document.querySelector('#toggleButton-2 i');
+
+  togglePassword.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const type = inputPassword
+            .getAttribute('type') === 'password' ?
+            'text' : 'password';
+
+    inputPassword.setAttribute('type', type);
+    iconPassword.classList.toggle('bi-eye');
+  });
+
+  toggleConfirm.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const type = inputConfirm
+            .getAttribute('type') === 'password' ?
+            'text' : 'password';
+
+    inputConfirm.setAttribute('type', type);
+    iconConfirm.classList.toggle('bi-eye');
+  });
+</script>
+</body>
+</html>
